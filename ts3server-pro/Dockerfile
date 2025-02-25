@@ -14,9 +14,9 @@ RUN git clone https://github.com/ptitSeb/box64.git && \
 
 # TS3 Server installieren
 WORKDIR /app
-RUN wget -O ts3.tar.bz2 $(curl -s 'https://files.teamspeak-services.com/releases/server/3.13.7/teamspeak3-server_linux_amd64-3.13.7.tar.bz2') && \
-    tar xvf ts3.tar.bz2 --strip-components=1 && \
-    rm ts3.tar.bz2 && \
+RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/server/3.13.7/teamspeak3-server_linux_amd64-3.13.7.tar.bz2 && \
+    tar xvf ts3server.tar.bz2 --strip-components=1 && \
+    rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
 # Webinterface

@@ -41,8 +41,8 @@ RUN apt-get update && \
     sqlite3 \
     libsqlite3-dev \
     mariadb-client \
-    libmariadb-dev \
-    && rm -rf /var/lib/apt/lists/* && \
+    libmariadb-dev && \
+    rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/include/mariadb /usr/include/mysql && \
     ln -s /usr/lib/aarch64-linux-gnu/libmariadb.so /usr/lib/aarch64-linux-gnu/libmysqlclient.so
 

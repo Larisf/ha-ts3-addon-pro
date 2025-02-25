@@ -33,7 +33,7 @@ socket=
 EOF
 
 else
-  echo "💡 Verwende SQLite-Datenbank"
+  echo "Verwende SQLite-Datenbank"
   cat <<EOF > ${CONFIG_FILE}
 machine_id=
 default_voice_port=9987
@@ -50,14 +50,14 @@ EOF
 fi
 
 # Dienste starten
-echo "🚀 Starte TeamSpeak Server..."
+echo "Starte TeamSpeak Server..."
 box64 ./ts3server_minimal_runscript.sh &
 sleep 5
 
-echo "🌐 Starte Web Interface..."
+echo "Starte Web Interface..."
 node /app/websocket_server.js &
 
-echo "💾 Aktiviere Backups..."
+echo "Aktiviere Backups..."
 /app/scripts/backup.sh &
 
 wait

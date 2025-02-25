@@ -1,5 +1,15 @@
 FROM arm64v8/node:20-bookworm-slim
 
+FROM arm64v8/node:20-bookworm-slim
+
+# Installiere SQLite + MySQL Support
+RUN apt-get update && apt-get install -y \
+    sqlite3 libsqlite3-dev \
+    mysql-client libmysqlclient-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Starte SQLite-Setup
+RUN /app/scripts/sqlite-fallback.sh
 # Installiere alle Abhängigkeiten
 RUN apt-get update && apt-get install -y \
     wget curl jq tar git cmake build-essential \
@@ -20,6 +30,11 @@ COPY . .
 
 # Installiere Node-Module
 RUN npm install express ws body-parcer multer mysql2
+
+
+# SQLite-Fallback
+COPY scripts/sqlite-fallback.sh /app/scripts/
+RUN chmod +x /app/scripts/sqlite-fallback.sh
 
 # Berechtigungen setzen
 RUN chmod +x /app/scripts/*.sh && \

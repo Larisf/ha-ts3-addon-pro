@@ -1,34 +1,29 @@
-// Backup Funktionen
-document.getElementById('create-backup').addEventListener('click', () => {
-  fetch('/backup', { method: 'POST' })
-    .then(response => response.json())
-    .then(data => showNotification(`Backup erstellt: ${data.file}`));
-});
+from flask import Flask, send_from_directory, request
+import sqlite3, os, subprocess
 
-// Lizenz Upload
-function uploadLicense() {
-  const file = document.getElementById('license-upload').files[0];
-  const formData = new FormData();
-  formData.append('license', file);
+app = Flask(__name__)
 
-  fetch('/upload-license', {
-    method: 'POST',
-    body: formData
-  }).then(() => showNotification('Lizenz erfolgreich aktualisiert'));
-}
+@app.route('/')
+def index():
+    return send_from_directory('www', 'index.html')
 
-// SQL Abfragen
-function runQuery() {
-  const query = document.getElementById('sql-query').value;
-  ws.send(JSON.stringify({
-    action: 'run_query',
-    data: { query }
-  }));
-}
+@app.route('/backup', methods=['POST'])
+def create_backup():
+    subprocess.run(["/app/scripts/backup.sh"])
+    return {"status": "success"}
 
-// WebSocket Handler
-ws.onmessage = (event) => {
-  const result = JSON.parse(event.data);
-  document.getElementById('query-result').innerHTML = 
-    `<pre>${JSON.stringify(result, null, 2)}</pre>`;
-};
+@app.route('/upload-license', methods=['POST'])
+def upload_license():
+    file = request.files['license']
+    file.save('/app/.ts3server_license_accepted')
+    return {"status": "success"}
+
+@app.route('/clients')
+def get_clients():
+    conn = sqlite3.connect('/app/ts3server.sqlitedb')
+    c = conn.cursor()
+    c.execute("SELECT * FROM clients")
+    return {"clients": c.fetchall()}
+
+if __name__ == "__main__":
+    app.run()

@@ -1,4 +1,6 @@
-FROM arm64v8/node:20-bookworm-slim
+#FROM arm64v8/node:20-bookworm-slim
+# Explizite ARMv7/ARMv8 Architektur angeben
+FROM --platform=linux/arm/v7 python:3.11-slim-bookworm
 
 # 1. Korrigierte Paketquellen für ARM64
 RUN echo "deb http://deb.debian.org/debian bookworm main contrib non-free" > /etc/apt/sources.list && \

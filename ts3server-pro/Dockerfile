@@ -1,4 +1,3 @@
-# Basierend auf ARM64 Node.js
 FROM arm64v8/node:20-bookworm-slim
 
 # 1. Korrigierte Paketquellen für ARM64
@@ -23,6 +22,11 @@ RUN apt-get update && \
     libx11-dev \
     python3 \
     python3-pip \
+    python3-dev \
+    libssl-dev \
+    libffi-dev \
+    gcc \
+    g++ \
     && apt-get clean
 
 # 3. MariaDB Repository hinzufügen
@@ -54,7 +58,8 @@ RUN git clone https://github.com/ptitSeb/box64.git && \
 # 6. Python Abhängigkeiten
 RUN pip3 install --no-cache-dir \
     ts3py \
-    mysql-connector-python
+    pymysql \
+    cryptography
 
 # 7. Anwendungsverzeichnis erstellen
 WORKDIR /app

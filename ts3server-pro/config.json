@@ -1,31 +1,18 @@
 {
-  "name": "TS3 Server Pro",
+  "name": "TS3 Server",
   "version": "3.0.0",
-  "slug": "ts3server-pro",
-  "description": "TeamSpeak 3 Server mit Admin-GUI, Backups und MySQL",
-  "panel_icon": "mdi:server",
+  "slug": "ts3server",
+  "description": "TeamSpeak 3 Server mit Admin-GUI",
+  "panel_icon": "mdi:account-voice",
   "ingress": true,
   "ingress_port": 8099,
   "arch": ["aarch64"],
   "ports": {
     "9987/udp": 9987,
     "10011/tcp": 10011,
-    "30033/tcp": 30033,
-    "8099/tcp": 8099
+    "30033/tcp": 30033
   },
-  "map": ["config:rw", "backup:rw", "license:rw"],
-  "options": {
-    "mysql_host": "",
-    "mysql_user": "",
-    "mysql_password": "",
-    "mysql_database": "ts3server",
-    "backup_interval": 24
-  },
-  "schema": {
-    "mysql_host": "str",
-    "mysql_user": "str",
-    "mysql_password": "str",
-    "mysql_database": "str",
-    "backup_interval": "int"
-  }
+  "map": ["config:rw", "backup:rw", "share:rw"],
+  "options": {},
+  "schema": {}
 }

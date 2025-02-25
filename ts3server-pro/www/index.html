@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TS3 Admin Pro</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/themes/light.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Backup Section -->
+    <sl-card class="backup-management">
+      <div slot="header">Backup Verwaltung</div>
+      <sl-button variant="primary" id="create-backup">Jetzt Backup erstellen</sl-button>
+      <div id="backup-list"></div>
+    </sl-card>
+
+    <!-- License Upload -->
+    <sl-card>
+      <div slot="header">Lizenz hochladen</div>
+      <input type="file" id="license-upload" accept=".ini">
+      <sl-button variant="success" onclick="uploadLicense()">Hochladen</sl-button>
+    </sl-card>
+
+    <!-- MySQL Query Interface -->
+    <sl-card>
+      <div slot="header">SQL Abfrage</div>
+      <sl-textarea id="sql-query"></sl-textarea>
+      <sl-button variant="primary" onclick="runQuery()">Ausführen</sl-button>
+      <div id="query-result"></div>
+    </sl-card>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

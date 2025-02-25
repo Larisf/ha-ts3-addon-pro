@@ -1,12 +1,17 @@
 #!/bin/bash
 
-# Starte TS3 Server
-box64 ./ts3server_minimal_runscript.sh &
+# TS3-Server mit bash starten
+bash ./ts3server_minimal_runscript.sh &
+TS3_PID=$!
 
-# Starte Webinterface
-python3 -m waitress --port=8099 --call "flask:create_app" &
+# Flask-Server korrekt starten
+python3 -m waitress --port=8099 --call app:create_app &
+FLASK_PID=$!
 
-# Backups
-/app/scripts/backup.sh &
+# Backup-Script nur starten, wenn vorhanden
+if [ -f "/app/scripts/backup.sh" ]; then
+  /app/scripts/backup.sh &
+  BACKUP_PID=$!
+fi
 
-wait
+wait $TS3_PID $FLASK_PID ${BACKUP_PID:-}

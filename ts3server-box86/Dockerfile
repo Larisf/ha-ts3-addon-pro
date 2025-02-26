@@ -49,8 +49,6 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     touch .ts3server_license_accepted
 
 
-ENTRYPOINT ["/entrypoint.sh"]
-
 # Füge diese Zeilen hinzu
 COPY password_watcher.sh /
 RUN chmod +x /password_watcher.sh

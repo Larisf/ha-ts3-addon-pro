@@ -3,7 +3,7 @@ from ts3.query import TS3QueryConnection
 import os
 
 app = Flask(__name__)
-PASSWORD = os.getenv('SERVERADMIN_PASSWORD', 'your_password')
+PASSWORD = os.environ.get('SERVERADMIN_PASSWORD', '')
 
 @app.route('/clients')
 def get_clients():

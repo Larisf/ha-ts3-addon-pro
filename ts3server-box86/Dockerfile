@@ -1,6 +1,6 @@
 FROM arm64v8/debian:bookworm-slim
 
-# Installiere Abhängigkeiten
+# Installiere Basis-Abhängigkeiten
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -15,37 +15,36 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-dev \
     libffi-dev \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# ARM64-spezifische Pakete
-RUN if [ "$(uname -m)" = "aarch64" ]; then \
-    apt-get install -y libc6-dev-arm64-cross; \
-    fi
-
-# Python-Pakete installieren
-RUN pip3 install --upgrade pip && \
+# Python-Pakete mit kompatiblen Versionen
+RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install \
     Flask==2.0.3 \
     python-ts3==4.1.0 \
     Werkzeug==2.0.3
 
-# Installiere Box64
+# Box64 kompilieren
 RUN git clone https://github.com/ptitSeb/box64.git && \
     cd box64 && \
     mkdir build && \
     cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo && \
+    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DARM_DYNAREC=ON && \
     make -j$(nproc) && \
     make install && \
     cd / && \
     rm -rf box64
 
-# TeamSpeak Server vorbereiten
+# TeamSpeak Server installieren
 WORKDIR /app
 RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/server/3.13.7/teamspeak3-server_linux_amd64-3.13.7.tar.bz2 && \
     tar xvf ts3server.tar.bz2 --strip-components=1 && \
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
+
+
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Füge diese Zeilen hinzu
 COPY password_watcher.sh /

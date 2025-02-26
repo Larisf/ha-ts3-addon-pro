@@ -1,7 +1,7 @@
 #!/bin/bash
 cd /app
 
-# Prüfe, ob eine LICENSEKEY.dat im persistente config-Verzeichnis vorhanden ist und kopiere sie in das App-Verzeichnis
+# Prüfe, ob eine LICENSEKEY.dat im persistenten Config-Verzeichnis vorhanden ist und kopiere sie in das App-Verzeichnis
 if [ -f /config/LICENSEKEY.dat ]; then
     cp /config/LICENSEKEY.dat /app/
 fi

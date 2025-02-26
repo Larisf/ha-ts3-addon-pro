@@ -46,7 +46,7 @@ def index():
 def backup():
     backup_filename = f"ts3_backup_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.tar.gz"
     backup_path = os.path.join('/app', backup_filename)
-    # Erstelle ein Backup des /app Verzeichnisses (Backup-Dateien werden dabei ausgeschlossen)
+    # Erstelle ein Backup des /app Verzeichnisses (die gerade erstellte Backup-Datei wird ausgeschlossen)
     with tarfile.open(backup_path, "w:gz") as tar:
         def exclude_backup(tarinfo):
             if tarinfo.name.startswith(backup_filename):
@@ -65,7 +65,7 @@ def upload_license():
         flash("Keine Datei ausgewählt.")
         return redirect(url_for('index'))
     if file and file.filename.endswith('.dat'):
-        # Speichere die LICENSEKEY.dat in das persistente Config-Verzeichnis
+        # Speichere die LICENSEKEY.dat im persistenten Config-Verzeichnis
         license_path = '/config/LICENSEKEY.dat'
         file.save(license_path)
         flash("LICENSEKEY.dat erfolgreich hochgeladen. Bitte Container neu starten, damit die Lizenz aktiviert wird.")

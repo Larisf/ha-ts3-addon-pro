@@ -36,6 +36,12 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
+# Füge diese Zeilen hinzu
+COPY password_watcher.sh /
+RUN chmod +x /password_watcher.sh
+
+# Ändere den ENTRYPOINT
+ENTRYPOINT ["/bin/bash", "-c", "/password_watcher.sh & /entrypoint.sh"]
 # Kopiere Dateien
 COPY entrypoint.sh /
 COPY api.py /app/

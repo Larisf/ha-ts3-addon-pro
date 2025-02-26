@@ -1,0 +1,19 @@
+{
+    "name": "TS3 Server (Box64)",
+    "version": "1.0.0",
+    "slug": "ts3server-box64",
+    "description": "TeamSpeak 3 Server mit Box64-Emulation, GUI, Backup und Lizenzverwaltung",
+    "startup": "system",
+    "boot": "auto",
+    "ingress": true,
+    "ports": {
+      "9987/udp": 9987,
+      "10011/tcp": 10011,
+      "30033/tcp": 30033
+    },
+    "arch": ["aarch64"],
+    "map": ["config"],
+    "options": {},
+    "schema": {}
+  }
+  

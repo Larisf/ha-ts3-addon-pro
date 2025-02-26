@@ -1,6 +1,6 @@
 FROM arm64v8/debian:bookworm-slim
 
-# Installiere notwendige Pakete inkl. Python3 und pip
+# Installiere notwendige Pakete inkl. Python3, pip und python3-flask
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -13,10 +13,8 @@ RUN apt-get update && apt-get install -y \
     libx11-dev \
     python3 \
     python3-pip \
+    python3-flask \
     && rm -rf /var/lib/apt/lists/*
-
-# Installiere Flask via pip
-RUN pip3 install flask
 
 # Installiere Box64
 RUN git clone https://github.com/ptitSeb/box64.git && \
@@ -36,7 +34,7 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
-# Kopiere die Start-Skripte und das GUI-App-Skript
+# Kopiere das Start-Skript und das GUI-App-Skript
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 COPY app.py /app/

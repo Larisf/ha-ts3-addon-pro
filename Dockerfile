@@ -38,3 +38,5 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
 COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 COPY app.py /app/
+ENTRYPOINT ["/entrypoint.sh"]
+

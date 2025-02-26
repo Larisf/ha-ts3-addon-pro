@@ -8,7 +8,7 @@ fi
 
 # Starte den TS3 Server im Hintergrund
 echo "TeamSpeak 3 Server startet..."
-box64 ./ts3server_minimal_runscript.sh &
+box64 ./ts3server_startscript.sh start &
 
 # Starte das Web-GUI (Flask App)
 echo "Starte Web-GUI..."

@@ -1,5 +1,4 @@
 {
-  "name": "TS3 Addons",
-  "url": "https://github.com/Larisf/ha-ts3-addon-pro",
-  "maintainer": "Home Assistant Community"
+  "name": "TS3-Server",
+  "url": "https://github.com/Larisf/ha-ts3-addon"
 }

@@ -53,11 +53,12 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
 COPY password_watcher.sh /
 RUN chmod +x /password_watcher.sh
 
-# Ändere den ENTRYPOINT
-ENTRYPOINT ["/bin/bash", "-c", "/password_watcher.sh & /entrypoint.sh"]
 # Kopiere Dateien
 COPY entrypoint.sh /
 COPY api.py /app/
 COPY ts3-panel.js /app/
 COPY ts3-panel.css /app/
 RUN chmod +x /entrypoint.sh
+
+# Ändere den ENTRYPOINT
+ENTRYPOINT ["/bin/bash", "-c", "/password_watcher.sh & /entrypoint.sh"]

@@ -24,11 +24,14 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 # Installiere Python-Pakete im virtuellen Environment
-RUN /opt/venv/bin/pip install --no-cache-dir --upgrade pip && \
+RUN apt-get update && apt-get install -y gcc python3-dev && \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade "pip<24" && \
     /opt/venv/bin/pip install \
     Flask==2.0.3 \
-    python-ts3==4.1.0 \
-    Werkzeug==2.0.3
+    Werkzeug==2.0.3 \
+    ts3==4.0.0 && \
+    apt-get purge -y gcc python3-dev && \
+    apt-get autoremove -y
 
 # Box64 kompilieren
 RUN git clone https://github.com/ptitSeb/box64.git && \

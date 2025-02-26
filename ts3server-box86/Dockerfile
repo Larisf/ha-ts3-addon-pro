@@ -4,7 +4,6 @@ FROM arm64v8/debian:bookworm-slim
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
-    jq \
     tar \
     git \
     cmake \
@@ -16,31 +15,29 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     libffi-dev \
     libssl-dev \
+    inotify-tools \
+    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Erstelle virtuelles Python-Environment
+# Python Virtual Environment
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Installiere Python-Pakete im virtuellen Environment
-RUN apt-get update && apt-get install -y gcc python3-dev && \
-    /opt/venv/bin/pip install --no-cache-dir --upgrade "pip<24" && \
-    /opt/venv/bin/pip install \
+# Python-Abhängigkeiten
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install \
     Flask==2.0.3 \
-    Werkzeug==2.0.3 \
-    ts3==4.0.0 && \
-    apt-get purge -y gcc python3-dev && \
-    apt-get autoremove -y
+    werkzeug==2.0.3 \
+    pyteamspeak==2.1.4
 
 # Box64 kompilieren
 RUN git clone https://github.com/ptitSeb/box64.git && \
     cd box64 && \
     mkdir build && \
     cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DARM_DYNAREC=ON && \
-    make -j$(nproc) && \
-    make install && \
+    cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DARM_DYNAREC=ON -GNinja && \
+    ninja && \
+    ninja install && \
     cd / && \
     rm -rf box64
 
@@ -51,17 +48,9 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
-
-# Füge diese Zeilen hinzu
-COPY password_watcher.sh /
-RUN chmod +x /password_watcher.sh
-
-# Kopiere Dateien
-COPY entrypoint.sh /
+# Copy Files
+COPY entrypoint.sh /entrypoint.sh
 COPY api.py /app/
-COPY ts3-panel.js /app/
-COPY ts3-panel.css /app/
 RUN chmod +x /entrypoint.sh
 
-# Ändere den ENTRYPOINT
-ENTRYPOINT ["/bin/bash", "-c", "/password_watcher.sh & /entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

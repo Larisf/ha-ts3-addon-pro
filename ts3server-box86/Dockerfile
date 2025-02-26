@@ -12,15 +12,20 @@ RUN apt-get update && apt-get install -y \
     libsdl2-dev \
     libx11-dev \
     python3 \
-    python3-pip \
+    python3-venv \
     python3-dev \
     libffi-dev \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Python-Pakete mit kompatiblen Versionen
-RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install \
+
+# Erstelle virtuelles Python-Environment
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Installiere Python-Pakete im virtuellen Environment
+RUN /opt/venv/bin/pip install --no-cache-dir --upgrade pip && \
+    /opt/venv/bin/pip install \
     Flask==2.0.3 \
     python-ts3==4.1.0 \
     Werkzeug==2.0.3

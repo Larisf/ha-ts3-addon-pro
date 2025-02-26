@@ -27,8 +27,12 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install \
     Flask==2.0.3 \
-    werkzeug==2.0.3 \
-    pyteamspeak==2.1.4
+    werkzeug==2.0.3
+
+RUN git clone https://github.com/benediktschmitt/py-ts3.git && \
+    cd py-ts3 && \
+    pip install .
+
 
 # Box64 kompilieren
 RUN git clone https://github.com/ptitSeb/box64.git && \

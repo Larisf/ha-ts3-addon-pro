@@ -74,5 +74,5 @@ def upload_license():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    # Starte die Flask-App auf Port 5000 und binde an alle Interfaces
-    app.run(host='0.0.0.0', port=5000)
+    # Starte die Flask-App auf Port 80 und binde an alle Interfaces
+    app.run(host='0.0.0.0', port=80)

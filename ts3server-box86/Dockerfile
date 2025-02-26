@@ -13,10 +13,21 @@ RUN apt-get update && apt-get install -y \
     libx11-dev \
     python3 \
     python3-pip \
+    python3-dev \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Installiere Python-Pakete
-RUN pip3 install Flask ts3
+# ARM64-spezifische Pakete
+RUN if [ "$(uname -m)" = "aarch64" ]; then \
+    apt-get install -y libc6-dev-arm64-cross; \
+    fi
+
+# Python-Pakete installieren
+RUN pip3 install --upgrade pip && \
+    pip3 install \
+    Flask==2.0.3 \
+    python-ts3==4.1.0 \
+    Werkzeug==2.0.3
 
 # Installiere Box64
 RUN git clone https://github.com/ptitSeb/box64.git && \

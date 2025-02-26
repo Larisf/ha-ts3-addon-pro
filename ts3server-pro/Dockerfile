@@ -6,8 +6,6 @@ RUN apt-get update && apt-get install -y \
     libsdl2-dev libx11-dev python3 python3-pip \
     sqlite3 libsqlite3-dev && apt-get clean
 
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
 # 2. Box64 kompilieren
 RUN git clone https://github.com/ptitSeb/box64.git && \
     cd box64 && mkdir build && cd build && \
@@ -27,7 +25,7 @@ COPY www /www
 COPY entrypoint.sh /
 
 # 5. Python Abhängigkeiten
-RUN pip install flask==2.3.3 waitress==2.1.2
+RUN pip3 install flask==2.3.3 waitress==2.1.2
 
 # 6. Berechtigungen
 RUN chmod +x /entrypoint.sh /app/scripts/*.sh

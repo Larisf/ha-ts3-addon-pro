@@ -1,0 +1,9 @@
+{
+    "name": "Custom Addons Repository",
+    "maintainer": "Dein Name oder Nickname",
+    "url": "https://github.com/deinusername/dein-repository",
+    "addons": [
+      "ts3server-box64"
+    ]
+  }
+  

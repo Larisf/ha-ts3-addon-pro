@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import io
+import tarfile
 import os
 import subprocess
-from flask import Flask, request, send_from_directory, render_template_string
+from flask import Flask, request, send_from_directory, render_template_string, send_file
 
 app = Flask(__name__)
 CONFIG_DIR = "/config"
@@ -119,12 +121,23 @@ def upload():
 
 @app.route("/backup", methods=["POST"])
 def backup():
-    backup_file = os.path.join(BACKUP_DIR, "backup.tar.gz")
+    # Prüfen, ob das /config Verzeichnis existiert
+    if not os.path.exists(CONFIG_DIR) or not os.listdir(CONFIG_DIR):
+        return "Fehler: Das Verzeichnis /config ist leer oder existiert nicht!", 500
 
     try:
-        subprocess.run(["tar", "-czf", backup_file, CONFIG_DIR], check=True)
-        return send_from_directory(BACKUP_DIR, "backup.tar.gz", as_attachment=True)
-    except subprocess.CalledProcessError as e:
+        # Erstelle ein in-memory tar.gz-Archiv
+        backup_io = io.BytesIO()
+        with tarfile.open(fileobj=backup_io, mode="w:gz") as tar:
+            tar.add(CONFIG_DIR, arcname=os.path.basename(CONFIG_DIR))
+
+        # Setze den Zeiger zurück, damit die Datei vom Anfang gelesen werden kann
+        backup_io.seek(0)
+
+        # Datei an den Browser senden, damit sie heruntergeladen wird
+        return send_file(backup_io, as_attachment=True, download_name="backup.tar.gz", mimetype="application/gzip")
+
+    except Exception as e:
         return f"Fehler beim Erstellen des Backups: {e}", 500
 
 if __name__ == "__main__":

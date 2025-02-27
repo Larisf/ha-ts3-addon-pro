@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libsdl2-dev \
     libx11-dev \
-    nano \ # Nützlich für die Bearbeitung von Dateien im Container
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
 # Installiere Box64

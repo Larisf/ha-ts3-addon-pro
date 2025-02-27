@@ -2,10 +2,11 @@
   "name": "TS3 Server (Box64)",
   "version": "1.0.0",
   "slug": "ts3server-box64",
-  "description": "TeamSpeak 3 Server mit Box64-Emulation, GUI, Backup und Lizenzverwaltung",
+  "description": "TeamSpeak 3 Server mit Box64-Emulation",
   "startup": "system",
   "boot": "auto",
   "ingress": true,
+  "panel_icon": "mdi:teamspeak",
   "ports": {
     "9987/udp": 9987,
     "10011/tcp": 10011,

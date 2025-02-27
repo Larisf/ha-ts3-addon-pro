@@ -6,6 +6,10 @@ if [ -f /config/LICENSEKEY.dat ]; then
     cp /config/LICENSEKEY.dat /app/
 fi
 
+#!/bin/bash
+echo "Starte Supervisor..."
+exec supervisord -c /app/supervisord.conf
+
 # Starte den TS3 Server im Hintergrund
 echo "TeamSpeak 3 Server startet..."
 box64 ./ts3server_startscript.sh start &

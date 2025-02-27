@@ -7,8 +7,6 @@ from flask import Flask, request, send_from_directory, render_template_string, s
 
 app = Flask(__name__)
 CONFIG_DIR = "/config"
-BACKUP_DIR = "/backup"
-os.makedirs(BACKUP_DIR, exist_ok=True)  # Sicherstellen, dass das Backup-Verzeichnis existiert
 
 HTML_TEMPLATE = '''
 <!DOCTYPE html>

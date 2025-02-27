@@ -37,10 +37,10 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     #Installiere Python und Flask
 RUN apt-get update && apt-get install -y python3 python3-pip && pip3 install flask
 #Kopiere die Backend Datei
-COPY app.py /app/app.py
+COPY app.py /app.py
 
 #Starte das Backend
-CMD ["python3", "/app/app.py"]
+CMD ["python3", "/app.py"]
 
 
 # Startscript kopieren

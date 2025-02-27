@@ -1,6 +1,6 @@
 FROM arm64v8/debian:bookworm-slim
 
-# Installiere Abhängigkeiten inklusive Python, pip und Supervisor
+# Installiere Abhängigkeiten
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -11,13 +11,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libsdl2-dev \
     libx11-dev \
-    python3 \
-    python3-pip \
-    supervisor \
+    nano \ # Nützlich für die Bearbeitung von Dateien im Container
     && rm -rf /var/lib/apt/lists/*
-
-# Installiere benötigte Python-Pakete mit dem Flag, um systemweite Installation zu erlauben
-RUN pip3 install --break-system-packages flask
 
 # Installiere Box64
 RUN git clone https://github.com/ptitSeb/box64.git && \
@@ -30,20 +25,27 @@ RUN git clone https://github.com/ptitSeb/box64.git && \
     cd / && \
     rm -rf box64
 
-# Hole die neueste TS3 Server Version und bereite den Server vor
+# Hole immer die neuste TS3 Server Version
+# TeamSpeak Server vorbereiten
 WORKDIR /app
 RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/server/3.13.7/teamspeak3-server_linux_amd64-3.13.7.tar.bz2 && \
     tar xvf ts3server.tar.bz2 --strip-components=1 && \
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
-# Kopiere das Flask-App-Skript und die Supervisor-Konfiguration (falls benötigt)
-COPY app.py /app/app.py
-COPY supervisord.conf /app/supervisord.conf
 
-# Kopiere das angepasste entrypoint-Skript
-COPY entrypoint.sh /entrypoint.sh
+    #Installiere Python und Flask
+RUN apt-get update && apt-get install -y python3 python3-pip && pip3 install flask
+#Kopiere die Backend Datei
+COPY app.py /app/app.py
+
+#Starte das Backend
+CMD ["python3", "/app/app.py"]
+
+
+# Startscript kopieren
+COPY entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
-# Starte über Supervisor
+# Starte standardmäßig das Start-Skript
 ENTRYPOINT ["/entrypoint.sh"]

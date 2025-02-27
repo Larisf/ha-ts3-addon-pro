@@ -1,19 +1,10 @@
 #!/bin/bash
 cd /app
+echo "TeamSpeak 3 Server startet..."
 
-# Prüfe, ob eine LICENSEKEY.dat im persistenten Config-Verzeichnis vorhanden ist und kopiere sie in das App-Verzeichnis
-if [ -f /config/LICENSEKEY.dat ]; then
-    cp /config/LICENSEKEY.dat /app/
+# Lizenzdatei kopieren, falls vorhanden
+if [ -n "$LICENSE_KEY" ]; then
+  echo "$LICENSE_KEY" > LICENSEKEY.DAT
 fi
 
-#!/bin/bash
-echo "Starte Supervisor..."
-exec supervisord -c /app/supervisord.conf
-
-# Starte den TS3 Server im Hintergrund
-echo "TeamSpeak 3 Server startet..."
-box64 ./ts3server_startscript.sh start &
-
-# Starte das Web-GUI (Flask App)
-echo "Starte Web-GUI..."
-python3 /app/app.py
+exec box64 ./ts3server_minimal_runscript.sh

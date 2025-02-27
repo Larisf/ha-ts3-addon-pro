@@ -121,10 +121,7 @@ def upload():
 
 @app.route("/backup", methods=["POST"])
 def backup():
-    # Prüfen, ob das /config Verzeichnis existiert
-    if not os.path.exists(CONFIG_DIR) or not os.listdir(CONFIG_DIR):
-        return "Fehler: Das Verzeichnis /config ist leer oder existiert nicht!", 500
-
+    
     try:
         # Erstelle ein in-memory tar.gz-Archiv
         backup_io = io.BytesIO()

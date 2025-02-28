@@ -1,9 +1,9 @@
 {
-    "name": "Custom Addons Repository",
-    "maintainer": "Dein Name oder Nickname",
-    "url": "https://github.com/deinusername/dein-repository",
+    "name": "Ts3_Server by Bambi",
+    "maintainer": "Bambi^",
+    "url": "https://github.com/Larisf/ha-ts3-addon-pro.git",
     "addons": [
-      "ts3server-box64"
+      "Ts3_Server"
     ]
   }
   

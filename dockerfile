@@ -34,9 +34,7 @@ RUN wget -O ts3server.tar.bz2 https://files.teamspeak-services.com/releases/serv
     rm ts3server.tar.bz2 && \
     touch .ts3server_license_accepted
 
-# Kopiere Flask-App und Supervisor-Konfiguration
 COPY app.py /app/app.py
-COPY supervisord.conf /app/supervisord.conf
 
 # Kopiere das angepasste entrypoint-Skript
 COPY entrypoint.sh /entrypoint.sh
